@@ -20,39 +20,39 @@ import GridViewIcon from '@mui/icons-material/GridView';
 import { color, margin, style } from '@mui/system';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import ImageAvatars from './avatar';
+import FileUploader from './fileuploader';
+import { Link, useNavigate } from 'react-router-dom';
+import Employees from '../pages/Employees';
 const drawerWidth = 240;
 
 function Sidebar(props) {
+  const navigate = useNavigate();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
-  const handleDrawerToggle = () => {  
-    setMobileOpen(!mobileOpen);
-  };
+  // const handleDrawerToggle = () => {  
+  //   setMobileOpen(!mobileOpen);
+  // };
 
   const drawer = (
     <div>
       <h1 style={{marginBottom:'-76px',padding:'32px',display:'flex',fontFamily:'Merriweather',fontSize:'40px',fontWeight:'bolder'}}>BAKSH</h1>
       <Toolbar />
       <List style={{color:'black'}} >
-        {['Dashboard', 'Employees', 'Attendance','Loan Management','leaves'].map((text) => (
-          <ListItem  key={text}  >
-            <ListItemButton
-            >
-              <ListItemIcon
+          {/* <ListItemIcon
                
-              >
+               >
                 <GridViewIcon style={{color:'black'}}/>
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+              </ListItemIcon> */}
+        <ListItemButton onClick={()=>navigate('/employees')}>Employee</ListItemButton>
+        <ListItemButton onClick={()=>navigate('/dashboard')}>Dashboard</ListItemButton>
+        <ListItemButton onClick={()=>navigate('/signup')}>Signup</ListItemButton>
+
       </List>
     </div>
   );
 
-  const container = window !== undefined ? () => window().document.body : undefined;
+  // const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
     <Box sx={{ display: 'flex'   }}>
@@ -63,29 +63,28 @@ function Sidebar(props) {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
         }}
-      >
+      > 
         <Toolbar>
           <IconButton
             aria-label="open drawer"
             edge="start"
-            onClick={handleDrawerToggle}
+            // onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: 'none' } }}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant="h6">
             Dashboard
           </Typography>
           <NotificationsIcon style={{marginLeft:'60pc'}}/>
           <ImageAvatars/>
         </Toolbar>
-      </AppBar>
+      {/* </AppBar> */}
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth },flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
           container={container}
           variant="temporary"
@@ -128,12 +127,12 @@ function Sidebar(props) {
   );
 }
 
-Sidebar.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
-};
+ Sidebar.propTypes = {
+//   /**
+//    * Injected by the documentation to work in an iframe.
+//    * You won't need it on your project.
+//    */
+//   window: PropTypes.func,
+// };
 
 export default Sidebar;
