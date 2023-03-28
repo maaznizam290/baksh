@@ -1,138 +1,204 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import AppBar from '@mui/material/AppBar';
+import  React,{useState} from 'react';
+import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
+import CssBaseline from '@mui/material/CssBaseline';
+import MuiAppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
-import MenuIcon from '@mui/icons-material/Menu';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import GridViewIcon from '@mui/icons-material/GridView';
-import { color, margin, style } from '@mui/system';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import ImageAvatars from './avatar';
-import FileUploader from './fileuploader';
-import { Link, useNavigate } from 'react-router-dom';
-import Employees from '../pages/Employees';
-const drawerWidth = 240;
+import emp from '../components/assets/emp.png';
+import arrow  from '../components/assets/iscds.png';
+import sd from '../components/assets/sd.png';
+import lod from '../components/assets/lod.png'; 
+import emoji from '../components/assets/emj.png';
+import payroll from '../components/assets/pyto.png';
+import reimburse from '../components/assets/reim.png';
+import holiday from '../components/assets/holid.png';
+import manager from '../components/assets/manag.png';
+import sett from '../components/assets/set.png';
+import notification from '../components/assets/notification.png';
+import avat from '../components/assets/avatarss.png';
+const drawerWidth = 400;
 
-function Sidebar(props) {
-  const navigate = useNavigate();
-  const { window } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    flexGrow: 1,
+    padding: theme.spacing(5),
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: `-${drawerWidth}px`,
+    ...(open && {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginLeft: 0,
+    }),
+  }),
+);
 
-  // const handleDrawerToggle = () => {  
-  //   setMobileOpen(!mobileOpen);
-  // };
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+  transition: theme.transitions.create(['margin', 'width'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: `${drawerWidth}px`,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
 
-  const drawer = (
-    <div>
-      <h1 style={{marginBottom:'-76px',padding:'32px',display:'flex',fontFamily:'Merriweather',fontSize:'40px',fontWeight:'bolder'}}>BAKSH</h1>
-      <Toolbar />
-      <List style={{color:'black'}} >
-          {/* <ListItemIcon
-               
-               >
-                <GridViewIcon style={{color:'black'}}/>
-              </ListItemIcon> */}
-        <ListItemButton onClick={()=>navigate('/employees')}>Employee</ListItemButton>
-        <ListItemButton onClick={()=>navigate('/dashboard')}>Dashboard</ListItemButton>
-        <ListItemButton onClick={()=>navigate('/signup')}>Signup</ListItemButton>
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: 'flex-end',
+}));
 
-      </List>
-    </div>
-  );
+export default function Sidebar() {
+  const [active,setActive] = useState(false);
+  const theme = useTheme();
+  const [open, setOpen] = useState(false);
 
-  // const container = window !== undefined ? () => window().document.body : undefined;
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
 
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
+  const handleClick=()=>{
+    setActive(!active);
+  }
   return (
-    <Box sx={{ display: 'flex'   }}>
+    <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
-        }}
-      > 
+      <AppBar style={{backgroundColor:'black'}} position="fixed" open={open} 
+      >
         <Toolbar>
           <IconButton
+            color="inherit"
             aria-label="open drawer"
+            onClick={handleDrawerOpen}
             edge="start"
-            // onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 2, ...(open && { display: 'none' }) }}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6">
-            Dashboard
+          <Typography style={{color:'white',margin:'13px'}} >
+            Attendance Report
           </Typography>
-          <NotificationsIcon style={{marginLeft:'60pc'}}/>
-          <ImageAvatars/>
         </Toolbar>
-      {/* </AppBar> */}
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth },flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
+        <img src={notification} style={{width:'19px',marginLeft:'65pc',marginTop:'-2pc',position:'relative',display:'block',height:'32px'}} alt="" />
+      <img src={avat} alt="" style={{width:'19px',marginLeft:'68  pc',marginTop:'-2pc',position:'relative',display:'block',height:'32px'}} />
+      </AppBar>
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
+        }}
+        variant="persistent"
+        anchor="left"
+        open={open}
       >
-        <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}
-        >
-          {drawer}
-        </Drawer>
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}
-          open
-        >
-          {drawer}
-        </Drawer>
-      </Box>
-      <Box
-        component="main"
-        sx={{ flexGrow: 1, p: 3 ,width: { sm: `calc(100% - ${drawerWidth}px)` } }}
-      >
-        <Toolbar />
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          </IconButton>
+        </DrawerHeader>
+        <h1 style={{marginLeft:'3pc',fontFamily:'Merriweathe'}}>BAKSH</h1>
+        <List>
+          {['Dashboard', 'Employees'].map((text, index) => (
+            <ListItem key={text} >
+              <ListItemButton onChange={handleClick} style={{backgroundColor:active?"black":"white" }}  >
+                <ListItemIcon onChange={handleClick} style={{color:active ? "white":"black"}}>
+                  {index % 2 === 0 ? <GridViewIcon /> : <img src={emp} alt="" /> }
+                </ListItemIcon>
+                <ListItemText primary={text}  onClick={handleClick} style={{color:active ? "white":"black"}}/>
+                  {index===1 ? <img src={arrow} alt="" />:""}
+              </ListItemButton>
+            </ListItem>
+          ))}
+          {['Attendance', 'Loan Management'].map((text, index) => (
+            <ListItem key={text} >
+              <ListItemButton onChange={handleClick} style={{backgroundColor:active?"black":"white" }} 
+              // value={<Menu/>}
+              >
+                <ListItemIcon onChange={handleClick} style={{color:active ? "white":"black"}}> 
+                  {index % 2 === 0 ? <img src={sd} alt=""/> : <img src={lod} alt="" />}
+                </ListItemIcon>
+                <ListItemText primary={text}  onClick={handleClick} style={{color:active ? "white":"black"}} />
+                {index===0 ? <img src={arrow} alt="" />:""}
+              </ListItemButton>
+            </ListItem>
+          ))}
+                {['Leaves', 'Payroll'].map((text, index) => (
+            <ListItem key={text} >
+              <ListItemButton onChange={handleClick} style={{backgroundColor:active?"black":"white" }} >
+                <ListItemIcon onChange={handleClick} style={{color:active ? "white":"black"}}> 
+                  {index % 2 === 0 ? <img src={emoji} alt=""/> : <img src={payroll} alt="" />}
+                </ListItemIcon>
+                <ListItemText primary={text}  onClick={handleClick} style={{color:active ? "white":"black"}} />
+                {index%1 ===0 ? <img src={arrow} alt="" />:""}
+              </ListItemButton>
+            </ListItem>
+          ))}
+                    {['Reimburse', 'Holiday'].map((text, index) => (
+            <ListItem key={text} >
+              <ListItemButton onChange={handleClick} style={{backgroundColor:active?"black":"white" }} >
+                <ListItemIcon onChange={handleClick} style={{color:active ? "white":"black"}}> 
+                  {index % 2 === 0 ? <img src={reimburse} alt=""/> : <img src={holiday} alt="" />}
+                </ListItemIcon>
+                <ListItemText primary={text}  onClick={handleClick} style={{color:active ? "white":"black"}} />
+                {index ===1 ? <img src={arrow} alt="" />:""}
+              </ListItemButton>
+            </ListItem>
+          ))}
+              {['Managers', 'Setup'].map((text, index) => (
+            <ListItem key={text} >
+              <ListItemButton onChange={handleClick} style={{backgroundColor:active?"black":"white" }} >
+                <ListItemIcon onChange={handleClick} style={{color:active ? "white":"black"}}> 
+                  {index % 2 === 0 ? <img src={manager} alt=""/> : <img src={sett} alt="" />}
+                </ListItemIcon>
+                <ListItemText primary={text}  onClick={handleClick} style={{color:active ? "white":"black"}} />
+                {index ===1 ? <img src={arrow} alt="" />:""}
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
+      <Main open={open}>
+        <DrawerHeader />
         <Typography paragraph>
-       
         </Typography>
         <Typography paragraph>
-          
         </Typography>
-      </Box>
+      </Main>
     </Box>
   );
 }
-
- Sidebar.propTypes = {
-//   /**
-//    * Injected by the documentation to work in an iframe.
-//    * You won't need it on your project.
-//    */
-//   window: PropTypes.func,
-// };
-
-export default Sidebar;
