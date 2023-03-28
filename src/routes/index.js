@@ -12,9 +12,9 @@ export default function Routing() {
     <>
     <Routes>
         <Route path='*'/>
-        <Route path='/attendance' element={<AttendanceHeader/>} />
-        <Route path='/' element={<Sidebar/>}/>
-        <Route path='/signup' element={<Signup/>}/>
+        <Route path='/' element={<Signup/>} />
+        <Route path='/sidebar' element={<Sidebar/>}/>
+        <Route path='/attendance' element={<AttendanceHeader/>}/>
         <Route path='/employees' element={<Employees/>} />
         <Route path='/dashboard' element={<Dashboard/>} />
     </Routes>
